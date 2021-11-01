@@ -6,5 +6,9 @@ exports.about = (req, res) =>
 
 exports.notFound = (req, res) => res.render('404')
 
-exports.serverError = (req, res) => res.render('500')
+// Express recognizes the error handler by way of its four
+// arguments, so we have to disable ESLint's no-unused-vars rule
+/* eslint-disable no-unused-vars */
+exports.serverError = (err, req, res, next) => res.render('500')
+/* eslint-disable no-unused-vars */
 
