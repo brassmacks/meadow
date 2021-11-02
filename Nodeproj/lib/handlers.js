@@ -5,7 +5,7 @@ exports.about = (req, res) =>
   res.render( 'about', {fortune: fortune.getFortune() })
 
 exports.notFound = (req, res) => res.render('404')
-
+exports.sectionTest = (req, res) => res.render('section-test')
 // Express recognizes the error handler by way of its four
 // arguments, so we have to disable ESLint's no-unused-vars rule
 /* eslint-disable no-unused-vars */

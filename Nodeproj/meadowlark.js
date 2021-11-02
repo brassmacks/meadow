@@ -1,8 +1,8 @@
 const express = require('express')
-const ExpressHandlebars = require('express-handlebars')
+const expressHandlebars = require('express-handlebars')
 // const fortune = require('./lib/fortune')
 const handlers = require('./lib/handlers')
-
+const getWeatherData = require('./lib/middleware/getWeatherData')
 
 
 const app = express()
@@ -11,20 +11,25 @@ const port = process.env.PORT || 3000
 
 // route all to public
 app.use(express.static(__dirname + '/public')) 
-/*eslint-disable */
+/* eslint-disable */
 
 // define rendering enging as handlebars and set default layout path
-app.engine('handlebars', ExpressHandlebars({
+app.engine('handlebars', expressHandlebars({
   defaultLayout: 'main',
+  helpers: {
+    section: function(name, options) {
+      if(!this._sections) this._sections = {}
+      this._sections[name] = options.fn(this)
+      return null
+    },
+  },
 }))
 app.set('view engine', 'handlebars') 
-
-
+app.use(getWeatherData)
 app.get('/', handlers.home)
 
-
-
 app.get('/about', handlers.about)
+app.get('/section-test', handlers.sectionTest)
 //custom 404 page
 app.use(handlers.notFound)
 // custom 500 page 
